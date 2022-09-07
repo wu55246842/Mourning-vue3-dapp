@@ -1436,7 +1436,8 @@ h6 {
   transition: all 0.3s ease-in-out;
 }
 .entry-meta.meta-color-dark li a:hover {
-  color: #111111;
+  color:#3b5997;
+  font-size: larger;
 }
 #preloader {
   background: #ffffff url('../img/preloader.gif') no-repeat scroll center center;
@@ -1546,6 +1547,10 @@ h6 {
 }
 .footer-box-layout1 .footer-logo {
   text-align: center;
+}
+
+.footer-box-layout1 .footer-logo img{
+  max-width: 100%;
 }
 .footer-box-layout1 .footer-logo a {
   display: inline-block;
@@ -1712,10 +1717,10 @@ a:hover,
 a:focus {
   outline: 0 none;
 }
-img {
+/* img {
   max-width: 100%;
   height: auto;
-}
+} */
 ul {
   list-style: outside none none;
   margin: 0;
@@ -3117,6 +3122,7 @@ div#wrapper.open > .offcanvas-mask {
 /*------------------- 4.6 Pagination -------------------*/
 .pagination-layout1 {
   text-align: center;
+  margin: auto;
   padding: 3rem 0 5rem;
 }
 .pagination-layout1 ul li {
@@ -4645,6 +4651,9 @@ div#wrapper.open > .offcanvas-mask {
   margin-left: 7px;
   color: #ffffff;
   font-size: 28px;
+}
+.blog-box-layout3 .item-content {
+  
 }
 .blog-box-layout3 .item-content .item-title {
   font-size: 24px;

@@ -1,5 +1,8 @@
 import { createApp } from 'vue'
+import Cookies from 'js-cookie'
+
 import App from './App.vue'
+
 
 const app = createApp(App)
 
@@ -18,18 +21,30 @@ import i18n from './utils/language'
 app.use(i18n)
 window.t = i18n.global.t
 
-//ant
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
 
 
-app.use(Antd)
 
 //bootstrap
 // import BootstrapVue3 from 'bootstrap-vue-3'
 // // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 // app.use(BootstrapVue3)
+
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import locale from 'element-plus/lib/locale/lang/en' 
+
+// svg图标
+import SvgIcon from '@/components/SvgIcon'
+import elementIcons from '@/components/SvgIcon/svgicon'
+
+app.use(elementIcons)
+app.component('svg-icon', SvgIcon)
+
+app.use(ElementPlus, {
+  locale: locale,
+  size: Cookies.get('size') || 'default'
+})
 
 import 'jquery'
 

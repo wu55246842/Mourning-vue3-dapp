@@ -9,7 +9,7 @@
                     <div class="row d-flex align-items-center">
                         <div class="col-lg-2 d-flex justify-content-start">
                             <div class="logo-area">
-                                <a href="/#/home" class="temp-logo" id="temp-logo">
+                                <a href="/home" class="temp-logo" id="temp-logo">
                                     <img src="../../assets/img/laowudi_fish.png" alt="logo" class="img-fluid">
                                 </a>
                             </div>
@@ -17,41 +17,20 @@
                         <div class="col-lg-6 d-flex justify-content-end">
                             <nav id="dropdown" class="template-main-menu">
                                 <ul>
-                                    <li class="hide-on-mobile-menu">
-                                        <a href="#">HOME</a>
+                                    <li>
+                                        <a href="/home">HOME</a>
                                     </li>
 
                                     <li>
-                                        <a href="/#/publish">Publish</a>
-                                    </li>
-
-                                    <li class="possition-static hide-on-mobile-menu">
-                                        <a href="/#/categories">CATEGORIES</a>
-                                        <div class="template-mega-menu">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-3" :key="'col_'+i" v-for="(c,i) in divideEqually(categories)">
-                                                        <ul class="sub-menu">
-                                                            <li :key="'li'+sub_c+'_'+sub_i" v-for="(sub_c,sub_i) in c">
-                                                                <!-- <a href="/#/categories">
-                                                                    <i :class="sub_c.icon"></i>{{sub_c.value}}
-                                                                </a> -->
-                                                                <router-link :to="'/categories?c='+sub_c.value">
-                                                                    <i :class="sub_c.icon"></i>{{sub_c.value}}
-                                                                </router-link>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                 </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/#/your_blogs">Your BLOGS</a>
+                                        <a href="/publish">REMEMBRANCE</a>
                                     </li>
 
                                     <li>
-                                        <a href="/#/about">ABOUT</a>
+                                        <a href="/memmorial">PET MEMORIAL</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/about">ABOUT</a>
                                     </li>
                                 </ul>
                             </nav>

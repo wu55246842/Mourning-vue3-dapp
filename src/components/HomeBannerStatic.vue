@@ -6,17 +6,20 @@
                     <div class="slider-item">
                         <div class="overlay"></div>
                         <div class="slider-inner flex home-1">
-                            <div class="slider-content">
-                                <h1 class="heading">Post your article</h1>
-                                <h1 class="heading">Tribute to the future </h1>
-                                <p class="sub-heading">A better way to talking with everyone </p>
-                                <div class="button-slider">
-                                    <router-link to="/categories" class="sc-button"><span>EXPLORE MORE</span></router-link>
-                                    <router-link to="/publish" class="sc-button"><span>POST BLOG</span></router-link>
-                                </div>
-                            </div>
+                            
                             <div class="slider-img">
-                                <div class="img-home-1"><img src="../assets/images/slider/img-slider-1.png" alt="Image"></div>
+                                <!-- <div class="img-home-1"><img src="../assets/images/slider/img-slider-1.png" alt="Image"></div> -->
+                                <div class="img-home-1"><img src="../assets/images/slider/pexels-gilberto-reyes.jpg" alt="Image"></div>
+                                
+                            </div>
+                            <div class="slider-content">
+                                <h1 class="heading">Letter to my pets</h1>
+                                <h1 class="heading">I know you are in heaven</h1>
+                                <p class="sub-heading">i'm always waiting for you</p>
+                                <div class="button-slider">
+                                    <router-link to="/categories" class="sc-button"><span>MORE STORY</span></router-link>
+                                    <router-link to="/publish" class="sc-button"><span>REMEMBRANCE</span></router-link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -29,13 +32,12 @@
 
 <script>
     import commonMixin from "@/utils/commonMixin.js"
-    import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
     import BaseBlogData from '../components/BaseBlogData'
-    import { defineComponent } from 'vue';
+
 
     export default {
         name: 'AppHomeBanner',
-        components: { LeftCircleOutlined,RightCircleOutlined,BaseBlogData},
+        components: {BaseBlogData},
         mixins:[commonMixin],
         props:{
             dataListLast:{
@@ -154,7 +156,7 @@
 
     .slider-inner {
         justify-content: space-between;
-        padding: 60px 12.7% 78px 19.3%;
+        padding: 60px 10% 78px 10%;
     }
 
     .slider-inner .slider-content {
@@ -192,6 +194,7 @@
      
 
     .slider .slider-img .img-home-1 > img {
+        border-radius: 50px;
         height: auto;
         max-width: 100%;
         vertical-align: middle;

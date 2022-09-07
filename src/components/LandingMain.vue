@@ -9,7 +9,7 @@
                             <div class="col-md-4 col-12" :key="data.publicationDate" v-for="data in dataList">
                                 <div class="blog-box-layout2">
                                     <div class="item-img">
-                                        <a @click="goToReadBook(data.tokenId)"><img :src="data.image" alt="blog"></a>
+                                        <a @click="goToReadBook(data)"><img :src="data.image" alt="blog"></a>
                                     </div>
                                     <base-blog-data :data="data"></base-blog-data>
                                 </div>
@@ -63,10 +63,6 @@ export default {
     },
 
     methods: {
-      goToReadBook(tokenId){
-            
-        this.$router.push("/read/" + tokenId);
-      },
 
     }
 }

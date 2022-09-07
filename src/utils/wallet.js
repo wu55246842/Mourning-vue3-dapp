@@ -5,6 +5,7 @@ import { getCurrentInstance } from "vue";
 import store from '../store'
 import Contract from './contract'
 import CommonFunc from "@/utils/commonFunction";
+import eventBus from '@/utils/eventBus'
 
 async function connect(flag){
     const networkConfig = await CommonFunc.getCurrentNetwork()
@@ -47,6 +48,7 @@ async function connect(flag){
     } catch (err){
         console.log('provider error============>' , err)
         web3Modal.clearCachedProvider()
+
     }
 
     if(provider){
@@ -115,7 +117,7 @@ async function disconnect() {
     window.web3Modal = null
 
     store.dispatch('setCurrentAccount', window.connectedAddress)
-    getCurrentInstance()?.proxy.$eventBus.emit('WALLET_DISCONNECTED')
+    eventBus.$emit('WALLET_DISCONNECTED')
 }
 
 function subscribeProvider(provider){

@@ -11,7 +11,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6 col-12 no-equal-item" :key="data.publicationDate" v-for="data in dataListLast">
                         <div class="blog-box-layout5">
                             <div class="item-img">
-                                <a @click="goToReadBook(data.tokenId)"><img :src="data.image" alt="Blog"></a>
+                                <a @click="goToReadBook(data)"><img :src="data.image" alt="Blog"></a>
                                 <a class="hover-icon">
                                     <span></span>
                                     <span></span>
@@ -26,7 +26,7 @@
 
                 </div>
                 <div class="loadmore-btn-layout1">
-                    <a href="/#/blogs" class="item-btn">LOAD MORE</a>
+                    <a href="/blogs" class="item-btn">LOAD MORE</a>
                 </div>
             </div>
         </section>
@@ -35,12 +35,11 @@
 
 <script>
     import commonMixin from "@/utils/commonMixin.js"
-    import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
     import BaseBlogData from '../components/BaseBlogData'
 
     export default {
         name: 'AppHomeBanner',
-        components: { LeftCircleOutlined,RightCircleOutlined,BaseBlogData},
+        components: {BaseBlogData},
         mixins:[commonMixin],
         props:{
             dataListLast:{

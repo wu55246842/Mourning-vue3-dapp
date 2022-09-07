@@ -7,18 +7,18 @@
 
         <donate-block v-if="donateShowFlag"></donate-block>
 
-        <div class="widget" v-if="authorShowFlag">
+        <!-- <div class="widget" v-if="authorShowFlag">
             <div class="widget-about-2">
                 <figure class="author-figure"><img src="../assets/img/figure/figure7.jpg" alt="about"></figure>
                 <figure class="author-signature"><img src="../assets/img/figure/signature.png" alt="about"></figure>
                 <p>Fusce mauris auctor iner hendrerit risus ollicituderty aeenean rauctor doloer.</p>
             </div>
-        </div>
+        </div> -->
 
         <div class="widget" v-if="popularShowFlag">
-            <div class="section-heading heading-dark">
+            <!-- <div class="section-heading heading-dark">
                 <h3 class="item-heading">POPULAR POSTS</h3>
-            </div>
+            </div> -->
             <div class="widget-popular">
                 <div class="post-box" v-if="(data,index) in dataList.splice(4)">
                     <div class="item-img">
@@ -30,8 +30,6 @@
             </div>
         </div>
         
-        <categories-widget v-if="catShowFlag"></categories-widget>
-
         
 
         <ad-block v-if="adShowFlag"></ad-block>
@@ -107,7 +105,6 @@
 <script>
 
 import commonMixin from "@/utils/commonMixin.js"
-import CategoriesWidget from './Categories'
 import DonateBlock from './Donate.vue' 
 import AdBlock from './Ad.vue'
 import SocialShareBlock from "./SocialShare"
@@ -117,7 +114,7 @@ import BaseBlogData from './BaseBlogData'
 
 export default {
     mixins:[commonMixin],
-    components: {CategoriesWidget,DonateBlock,AdBlock, BaseBlogData,SocialShareBlock},
+    components: {DonateBlock,AdBlock, BaseBlogData,SocialShareBlock},
 
     props:{
       

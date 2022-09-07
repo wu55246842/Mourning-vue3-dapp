@@ -1,25 +1,28 @@
 <template>
     <div class="item-content">
+        <h2 class="item-title"> <a @click="goToReadBook(data)">{{data.name}}</a></h2>
         <ul class="entry-meta meta-color-dark">
-            <!-- <li><i class="fas fa-tag"></i>{{data.name}}</li> -->
-            <!-- <li :key="c+new Date().getTime()" v-for="c in data.category"><i class="fas fa-tag"></i>{{c}}</li> -->
-            <li><i class="fas fa-tag"></i>{{data.category}}</li>
-            <li><i class="fas fa-calendar-alt"></i>{{msToDate(data.publicationDate)}}</li>
-            <!-- <li><i class="fas fa-user"></i>BY <a href="#">Mark Willy</a></li> -->
+            <li :style="inlineFlag?'display:inline':'display:block'"><i class="fas fa-calendar-alt"></i>{{msToDate(data.nDob)}}</li>
+            <li :style="inlineFlag?'display:inline':'display:block'"><i class="fas fa-calendar-alt"></i>{{msToDate(data.nDod)}}</li>
         </ul>
-        <h2 class="item-title"> <a @click="goToReadBook(data.tokenId)">{{data.name}}</a></h2>
-        <p v-if="decShowFlag">{{data.description}}</p>
+        <ul class="entry-meta meta-color-dark">
+            <li :style="inlineFlag?'display:inline':'display:block'"><i class="fas fa-university"></i>{{data.place}}</li>
+            <li :style="inlineFlag?'display:inline':'display:block'"><i class="fas fa-location-arrow"></i>{{data.nCountry}}</li>
+        </ul>
+        <ul v-if="decShowFlag" class="entry-meta meta-color-dark">
+            <li style="display:block">{{data.description}}</li>
+        </ul>
+        
     </div>
 </template>
 
 <script>
 
 import commonMixin from "@/utils/commonMixin.js"
-import CategoriesWidget from '../components/Categories' 
 
 export default {
     mixins:[commonMixin],
-    components: {CategoriesWidget},
+    components: {},
     props:{
         data:{
             type:Object,
@@ -28,7 +31,8 @@ export default {
                 return {}
             }
         },
-        decShowFlag:false
+        decShowFlag:false,
+        inlineFlag:false
      
     },
     computed: {

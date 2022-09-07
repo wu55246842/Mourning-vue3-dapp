@@ -5,6 +5,7 @@
 
         
        <div class="content-con" v-if="inited">
+        
             <router-view v-slot="{ Component }">
                 <transition>
                     <keep-alive v-if="$route.meta.keepAlive">
@@ -16,8 +17,14 @@
         </div>
         <div class="content-con" v-else>
             
-            <home-banner-static-block></home-banner-static-block>
-            <div class="loading-icon"></div>
+            <router-view v-slot="{ Component }">
+                <transition>
+                    <keep-alive v-if="$route.meta.keepAlive">
+                        <component :is="Component" />
+                    </keep-alive>
+                    <component :is="Component" v-else />
+                </transition>
+            </router-view>
         </div>
 
     
@@ -36,15 +43,19 @@ import eventBus from '@/utils/eventBus'
 import HeaderBlock from './Header'
 import NavbarBlock from './Navbar'
 import FooterBlock from './Footer'
-import HomeBannerStaticBlock from '../../components/HomeBannerStatic';
+import HomeBannerStaticBlock from '@/components/HomeBannerStatic';
 import UI from "@/utils/ui";
+
+
 export default {
     components: { HeaderBlock, NavbarBlock , FooterBlock ,HomeBannerStaticBlock},
     data () {
         return {
             UI,
             inited: false,
-            viewMode: localStorage.getItem('VIEWMODE') ? localStorage.getItem('VIEWMODE') : 'light'
+            viewMode: localStorage.getItem('VIEWMODE') ? localStorage.getItem('VIEWMODE') : 'light',
+            dataList:[],
+            dataListLast:[],
         }
     },
     created() {
@@ -54,6 +65,11 @@ export default {
         eventBus.$on('ChangeViewMode', (mode) => {
             this.viewMode = mode
         })
+        eventBus.$on('WALLET_DISCONNECTED', () => {
+            this.inited = false
+        })
+
+        
     }
 }
 </script>

@@ -17,6 +17,15 @@ const ipfs = create(
         }
     });
 
+ipfs.getIpfsPinList = async () => {
+
+    return await getPinList()
+}
+
+ipfs.getIpfsCidData = async(cid) =>{
+    return await getCidData(cid)
+}
+
 // run with local daemon
 // const ipfs = new IPFS('localhost', '5001', {protocol: 'http'});
 
@@ -179,15 +188,36 @@ const _toBase64 = file => new Promise((resolve, reject) => {
 
 const addFileToIpfs = async (buffer) => {
     const res = await ipfs.add(buffer).catch(err => {
-    //const res = await ipfs.files.add(buffer).catch(err => {
         console.log(err)
     })
-    // console.log(res)
-    // if(res && res.length > 0){
-    //     return  res[0].hash
-    // }
-    // return null
+
     return res
+}
+
+const getPinList = async () => {
+    let res = []
+    for await (const { cid, type } of ipfs.pin.ls()) {
+        res.push({ cid, type })
+    }
+    return res
+}
+
+const getCidData = async (cid) => {
+    // const res = await ipfs.ls(cid)
+    // return res
+    // for await (const chunk of ipfs.cat(cid)) {
+    //     console.info("chunk",chunk)
+    // }
+
+    // const res = await ipfs.ls(cid).then(data => {
+    //     return data
+    // })
+    // console.log("***********************",res)
+    // return res
+
+    for await (const file of ipfs.get(cid)) {
+        console.log(file)
+    }
 }
 
 export default ipfs;

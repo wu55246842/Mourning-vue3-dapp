@@ -2,6 +2,10 @@
     <div>
         <home-banner-static-block></home-banner-static-block>
         <!-- <home-banner-block :dataListLast="dataListLast"></home-banner-block> -->
+        <div class="row pt-5"></div>
+        <tf-slider-block :isForHomeBanner="false" :views="viewsNumber" :space="spaceWidth" :contents="dataListLast" 
+            :comTitle="tfSliderTitle" :comDec="tfSliderDec"></tf-slider-block>
+
         <div style="height:5rem"></div>
         <landing-main-block  :dataList="dataList"></landing-main-block>
 
@@ -11,17 +15,22 @@
 </template>
 
 <script>
-import UI from "@/utils/ui";
+import UI from "@/utils/ui"
 import CommonFunction from "@/utils/commonFunction"
 import {request} from "@/utils/request"
+import commonMixin from "@/utils/commonMixin"
+import IPFS from "@/utils/ipfs"
+import init from "@/config/init" 
 
 import HomeBannerBlock from '../components/HomeBanner'
 import HomeBannerStaticBlock from '../components/HomeBannerStatic'
 import LandingMainBlock from '../components/LandingMain'
+import TfSliderBlock from '../components/TfSlider'
 
 export default {
     name:'Home',
-    components: {HomeBannerBlock,HomeBannerStaticBlock, LandingMainBlock},
+    mixins:[commonMixin],
+    components: {HomeBannerBlock,HomeBannerStaticBlock, LandingMainBlock,TfSliderBlock},
     data() {
         return {
             title:'',
@@ -30,33 +39,65 @@ export default {
             testResultSend: null,
             dataList:[],
             dataListLast:[],
-            dataListPopular:[]
+            dataListPopular:[],
+            tfSliderTitle:'Remembrance of the month',
+            tfSliderDec:'',
+            viewsNumber:4,
+            spaceWidth:10
         }
     },
+    created(){
+    },
+
     mounted(){
         this.initData()
     },
     methods: {
         async initData(){
             // TODO)
-            const lastTokenId = await Contract.RKB.lastTokenId()
-            let max = 0
-            for (let tokenId = lastTokenId; tokenId > 100000; tokenId--) {
-                const tokenInfor = await Contract.RKB.getInfo(tokenId)
-                request({
-                    url:tokenInfor._tokenURI,
-                    methods:'Get'
-                }).then(res=>{
-                    max++
-                    res.tokenId = tokenId
-                    this.dataList.push(res)    
-                    if(max <= 6){
-                        this.dataListLast.push(res)
-                    }  
-                }).catch(err=>{
-                    console.log(err)
+            if(this.$store.state.currentAccount){
+                const lastTokenId = await Contract.RKB.lastTokenId()
+                let max = 0
+                for (let tokenId = lastTokenId; tokenId > 100000; tokenId--) {
+                    const tokenInfor = await Contract.RKB.getInfo(tokenId)
+                    request({
+                        url:tokenInfor._tokenURI,
+                        methods:'Get'
+                    }).then(res=>{
+                        max++
+                        res.tokenId = tokenId
+                        this.dataList.push(res)    
+                        if(max <= 6){
+                            this.dataListLast.push(res)
+                        }  
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                }
+
+            }else{
+                let max = 0
+                const res = await IPFS.getIpfsPinList()
+                res.forEach(async o =>{
+
+                    request({
+                        url:'https://ipfs.io/ipfs/'+o.cid.string,
+                        methods:'Get'
+                    }).then(res=>{
+                        max++
+                        res.id = o.cid.string
+                        this.dataList.push(res)    
+                        if(max <= 6){
+                            this.dataListLast.push(res)
+                        }  
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                    
                 })
+                
             }
+            
         },
         async tryTest(){
             const address = this.currentAccount

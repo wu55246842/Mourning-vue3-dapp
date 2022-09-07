@@ -14,6 +14,7 @@ import commonMixin from "@/utils/commonMixin.js"
 import UI from "@/utils/ui";
 import CommonFunction from "@/utils/commonFunction"
 import {request} from "@/utils/request"
+import IPFS from "@/utils/ipfs"
 
 import PersonalListBlock from '../components/PersonalList'
 
@@ -34,19 +35,45 @@ export default {
     methods: {
         async initData(){
             // TODO
-            const userTokens = await Contract.RKB.getAddrTokens(this.currentAccount)
-            userTokens.forEach(async tokenId => {
-                const tokenInfor = await Contract.RKB.getInfo(tokenId)
-                request({
-                    url:tokenInfor._tokenURI,
-                    methods:'Get'
-                }).then(res=>{
-                    res.tokenId = tokenId
-                    this.dataList.push(res)   
-                }).catch(err=>{
-                    console.log(err)
+            if(this.$store.state.currentAccount){
+                const userTokens = await Contract.RKB.getAddrTokens(this.currentAccount)
+                console.log("userTokens",userTokens)
+                userTokens.forEach(async tokenId => {
+                    const tokenInfor = await Contract.RKB.getInfo(tokenId)
+                    console.log("tokenInfor ====>",tokenInfor)
+                    request({
+                        url:tokenInfor._tokenURI,
+                        methods:'Get'
+                    }).then(res=>{
+                        res.tokenId = tokenId
+                        this.dataList.push(res)   
+                        // console.log("dataList ====>",res)
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                });
+            }else{
+                let max = 0
+                const res = await IPFS.getIpfsPinList()
+                res.forEach(async o =>{
+
+                    request({
+                        url:'https://ipfs.io/ipfs/'+o.cid.string,
+                        methods:'Get'
+                    }).then(res=>{
+                        max++
+                        res.id = o.cid.string
+                        this.dataList.push(res)    
+                        if(max <= 6){
+                            this.dataListLast.push(res)
+                        }  
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                    
                 })
-            });
+                
+            }
 
         },
         async tryTest(){

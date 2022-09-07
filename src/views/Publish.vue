@@ -1,149 +1,136 @@
 <template>
-  <a-card>
-    
-    <div id="axiosForm">
-      <div class="loader" v-if="loading"></div>
-      <a-form
-        :model="formState"
-        name="mint_book"
-        v-bind="formItemLayout"
-    >
-
-        <a-form-item label="Article Name" name="name">
-            <a-input v-model:value="formState.name" placeholder="article"/>
-        </a-form-item>
-
-        <a-form-item name="description" label="Description" has-feedback>
-            <a-textarea
-                v-model:value="formState.description"
-                placeholder="short description"
-                :auto-size="{ minRows: 2, maxRows: 5 }"
-            />
-        </a-form-item>
-
-
-        <a-form-item label="Upload Image" name="image">
-            <a-row>
-                <a-button @click="toggleShow" class="">Upload</a-button>
-                <my-upload field="img"
-                    @crop-success="cropSuccess"
-                    @crop-upload-success="cropUploadSuccess"
-                    @crop-upload-fail="cropUploadFail"
-                    langType="en"
-                    v-model="showFlag"
-                    :width="300"
-                    :height="300"
-                    url="/upload"
-                    :params="params"
-                    :headers="headers"
-                    noCircle="true"
-                    img-format="jpg/png"></my-upload>
-            </a-row>
-            <a-row>
-                <img :src="imgDataUrl">
-            </a-row>
-        </a-form-item>
-
-        <a-form-item name="cover" label="Cover" extra="select your favourite image as your blog's cover"> 
-
-            <!-- <a-upload
-                v-model:fileList="bookImageCover"
-                name="imageCover"
-                :multiple="false"
-                :customRequest="uploadImage"
-                :remove="deleteImageItem"
-                accept="image/png, image/jpeg"
-            >
-                <a-button>
-                    <template #icon><UploadOutlined /></template>
-                    Click to upload
-                </a-button>
-            </a-upload> -->
-
-            <!-- <a-row>
-                <viewer :options="options" :images="dataImages"
-                        @inited="inited"
-                        @options="defaultOptions"
-                        @show="showFlag"
-                        class="viewer" ref="viewer"
-                        >
-                    <template #default="scope">
-                        <img v-for="src in scope.images" :src="src" :key="src">
-                        {{scope.options}}
-                    </template>
-                </viewer>
-            </a-row>
-            <a-row justify="start" style="padding-top:2rem">
-                <a-col :span="2">
-                    <a-button type="primary" shape="round" @click="selectImg">Select</a-button>
-                </a-col>
-                <a-col :span="2">
-                    <a-button type="primary" shape="round" ghost @click="refreshImg">Refresh</a-button>
-                </a-col> 
-            </a-row>
+    <div class="container p-5">
+        <div class="loader" v-if="loading">
+        </div>
+        <a-card>
             
-            <a-row justify="start" style="padding-top:2rem">
-                <div class="showImg">
-                    <img v-if="formState.image" :src="formState.image">
-                </div>
-            </a-row>-->
-            
-            <crop-image-upload></crop-image-upload>
-
-
-            
-        </a-form-item>
-
-        <a-form-item name="Content" label="Content" extra="upload the book content with txt format">
-            <!-- <a-upload
-                v-model:fileList="bookContentFile"
-                name="content"
-                :multiple="false"
-                :customRequest="uploadFiles"
-                :remove="deleteFileItem"
-                accept=".txt"
-            >
-                <a-button>
-                    <template #icon><UploadOutlined /></template>
-                    Click to upload
-                </a-button>
+            <div id="axiosForm">
                 
-            </a-upload> -->
-            <Tinymce v-model:value="formState.content"  @change="handleChange" width="100%" />
-        </a-form-item>
+                <el-form
+                    :model="formState"
+                    name="mint_book"
+                    v-bind="formItemLayout"
+                    label-position="top"
+                >
+
+                    <el-col :xs="24" :md="24">
+                        <el-form-item label="Dearly Deceased Pet" name="name">
+                            <el-input
+                                v-model="formState.name"
+                                type="text"
+                                size="large"
+                                auto-complete="off"
+                                placeholder="Dearly Deceased Pet"
+                                >
+                                </el-input>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-row :gutter="20">
+                        <el-col :xs="24" :md="12">
+                            <el-form-item prop="nDob" label="Date Of Birth">
+                                <el-date-picker
+                                    v-model="formState.nDob"
+                                    type="date"
+                                    placeholder="Date Of Birth"
+                                    style="width: 100%"
+                                    />
+                            </el-form-item>
+                        </el-col>
 
 
+                        <el-col :xs="24" :md="12">
+                            <el-form-item prop="nDod" label="Date Of Pass">
+                                <el-date-picker
+                                    v-model="formState.nDod"
+                                    type="date"
+                                    placeholder="Date Of Pass"
+                                    style="width: 100%"
+                                    />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
 
-        <a-form-item name="Category" label="Category">
-            <!-- <a-checkbox-group v-model:value="formState.category" :options="categories">
-            </a-checkbox-group> -->
-            <a-radio-group v-model:value="formState.category" :options="categories">
-            </a-radio-group>
-        </a-form-item>
+                    <el-row :gutter="20">
+                        <el-col :xs="24" :md="12">
+
+                            <el-form-item prop="place" label="Final Resting Place">
+                                <el-input
+                                v-model="formState.place"
+                                type="text"
+                                size="large"
+                                auto-complete="off"
+                                placeholder="Final Resting Place"
+                                >
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :xs="24" :md="12">
+                            <el-form-item label="Final Resting Country">
+                                <el-select v-model="formState.nCountry" placeholder="Country" style="width: 100%">
+                                    <el-option label="Singapore" value="Singapore" />
+                                    <el-option label="Tailand" value="Tailand" />
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
 
 
-        <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
-            <a-button type="primary" @click="handleMint()">Mint</a-button>
-        </a-form-item>
-    </a-form>
+                    <el-col :xs="24" :md="24">
+                        <el-form-item name="description" label="Title">
+                            <el-input
+                                v-model="formState.description"
+                                type="textarea"
+                                size="large"
+                                auto-complete="off"
+                                placeholder="Description (notice: the length max limited characters is 100)"
+                                maxlength="100"
+                                >
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :xs="24" :md="24">
+                        <el-form-item name="cover" label="Image"> 
+                            <el-row>
+                                <crop-image-upload @uploadImageData="HandleUploadImageData"></crop-image-upload>
+                            </el-row>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :md="24" v-if="formState.image">
+
+                        <div class="show-preview">
+                            <img :src="formState.image">
+                        </div>
+                    </el-col>
+
+                    <el-col :xs="24" :md="24">
+                        <el-form-item name="Content" label="Memories">
+                            <Tinymce v-model:value="formState.content"  @change="handleChange" width="100%" />
+                        </el-form-item>
+                    </el-col>
+
+
+                    <el-form-item :wrapper-col="{ span: 12, offset: 6 }">
+                        <el-button type="primary" @click="handleMint()">Mint</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </a-card>
     </div>
-  </a-card>
 </template>
 
 
 <script>
-    import { UploadOutlined, InboxOutlined } from '@ant-design/icons-vue';
+    import { ElMessage, ElMessageBox } from "element-plus";
     import Tinymce from "@/components/Tinymce.vue";
-    import { message } from 'ant-design-vue';
     import category from "@/config/category"
-    import IPFS from "../utils/ipfs"
+    import IPFS from "@/utils/ipfs"
     import commonMixin from "@/utils/commonMixin.js"
 
     import 'viewerjs/dist/viewer.css'
     import { component as Viewer } from "v-viewer"
-
-    import MyUpload from 'vue-image-crop-upload'
-
 
     import CropImageUpload from '@/components/CropImageUpload'
 
@@ -154,18 +141,16 @@
         name: "Publish",
         mixins:[commonMixin],
         components: {
-            UploadOutlined,
-            InboxOutlined,
             Tinymce,
             Viewer,
-            MyUpload,
-            // VueCropper,
             CropImageUpload
         },
 
         data() {
             return {
                 loading :false,
+                closeFlag:false,
+                imageBase64:null,
                 bookContentFile:[],
                 bookImageCover:[],
 
@@ -195,10 +180,13 @@
 
                 formState:{
                     name : '',
+                    nDob:'',
+                    nDod:'',
+                    place:'',
+                    nCountry:'',
                     description : '',
                     image : '',
                     content : '',
-                    category:[],
                     publicationDate : null,
                     attributes : [
                         {
@@ -249,18 +237,21 @@
 
             
             async uploadImage(info) {
-                const key = 'updatable'
                 this.loading = true
-                message.loading({ content: 'Uploading ...', key});
                 //const res = await IPFS.saveToIPFS(info.file,'moralis')
+                console.log(info.file)
                 const res = await IPFS.saveToIPFS(info.file)
-                //console.log("res===================>",res)
+                console.log("res===================>",res)
                 if(res &&  res.ipfsHash){
                     //this.formState.image = res.url
                     this.formState.image = 'https://ipfs.io/ipfs/' + res.ipfsHash.path
                 }
                 this.loading = false
-                message.success({ content: 'Uploaded Successfully!', key, duration: 2 });
+                ElMessage({
+                    message: 'Uploaded Successfully!',
+                    type: 'success',
+                })
+                this.closeFlag = false
 
                 // setTimeout(() => {
                 //     this.loading = false
@@ -268,16 +259,17 @@
             },
 
             async uploadFiles(info) {
-                const key = 'updatable';
                 this.loading = true
-                message.loading({ content: 'Uploading ...', key});
                 //const res = await IPFS.saveToIPFS(info.file,'moralis')
                 const res = await IPFS.saveToIPFS(info.file)
                 if(res &&  res.url){
                     this.formState.content = res.url
                 }
                 this.loading = false
-                message.success({ content: 'Uploaded Successfully!', key, duration: 2 });
+                ElMessage({
+                    message: 'Uploaded Successfully!',
+                    type: 'success',
+                })
 
             },
                 /******************删除文件记录条目******************/
@@ -298,27 +290,43 @@
             },
 
             async handleMint(){
-                console.log('matedata',this.formState)
-                if(this.formState && this.formState.image && this.formState.content 
-                    && this.formState.name && this.formState.description && this.formState.category){
-                    const key = 'updatable'
-                    this.loading = true
-                    message.loading({ content: 'Processing ...', key});
-                    this.formState.publicationDate = new Date().getTime()
-                    let Base64 = require('js-base64').Base64
-                    this.formState.content =  Base64.encode(this.formState.content)
-                    console.log('matedata',this.formState)
-                    const res = await IPFS.saveToIPFS(this.formState)
-                    console.log('metadata ipfs:',res)
-                    if(res && res.ipfsHash){
-                        await Contract.RKB.createToken('https://ipfs.io/ipfs/'+res.ipfsHash.path)
-                        const result =  await Contract.RKB.lastTokenId()
-                        
-                        console.log('lastTokenId',result)
-                        this.loading = false
-                        message.success({ content: 'Congratulation! Your NFT Minted Successfully!', key, duration: 2 });
-                        this.reset()
+                if(this.$store.state.currentAccount){
+                    const result = await Contract.RKB.balanceOf(this.$store.state.currentAccount)
+                    if(result > 0.0007){
+                        if(this.formState && this.formState.image && this.formState.content 
+                            && this.formState.name && this.formState.description){
+                                this.loading = true
+                                this.formState.publicationDate = new Date().getTime()
+                                let Base64 = require('js-base64').Base64
+                                this.formState.content =  Base64.encode(this.formState.content)
+                                const res = await IPFS.saveToIPFS(this.formState)
+                                if(res && res.ipfsHash){
+                                    await Contract.RKB.createToken('https://ipfs.io/ipfs/'+res.ipfsHash.path)
+                                    const result =  await Contract.RKB.lastTokenId()
+                                    
+                                    console.log('lastTokenId',result)
+                                    this.loading = false
+                                    ElMessage({
+                                        message: 'Congratulation! Your NFT Minted Successfully!',
+                                        type: 'success',
+                                    })
+                                    this.reset()
+                                }
+                        }
+                    }else{
+
+                        ElMessage({
+                            message: 'Your wallet balance is not enough',
+                            type: 'warning',
+                        })
                     }
+
+                    
+                }else{
+                    ElMessage({
+                        message: 'Please connect to your wallet first',
+                        type: 'warning',
+                    })
                 }
 
             },
@@ -382,6 +390,13 @@
                 console.log('-------- upload fail --------');
                 console.log(status);
                 console.log('field: ' + field);
+            },
+
+            HandleUploadImageData(data){
+            
+                //this.uploadImage({file:data})
+                this.formState.image = data
+                this.imageBase64 = data
             }
 
         }

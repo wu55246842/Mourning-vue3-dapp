@@ -66,7 +66,9 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <div class="related-item">
+
+
+                            <!-- <div class="related-item">
                                 <div class="section-heading-4 heading-dark">
                                     <h3 class="item-heading">YOU MAY ALSO LIKE</h3>
                                 </div>
@@ -120,7 +122,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
@@ -164,6 +166,7 @@ export default({
         return{
             loading:true,
             tokenId:null,
+            id:null,
             txtPre:null,
             detail:{
                 name : '',
@@ -187,22 +190,51 @@ export default({
 
      async created() {
         this.tokenId = this.$route.params && this.$route.params.tokenId;
-        const tokenInfor = await Contract.RKB.getInfo(this.tokenId)
-        request({
-            url:tokenInfor._tokenURI,
-            methods:'Get'
-        }).then(res=>{
-            if(res.content.indexOf('https://')>-1){
-                this.detail = res
-                this.detail.content = this.readBookUrl(res.content)
+        this.id = this.$route.params && this.$route.params.id;
+        if(this.tokenId && this.tokenId!== 100000){
+            const tokenInfor = await Contract.RKB.getInfo(this.tokenId)
+            request({
+                url:tokenInfor._tokenURI,
+                methods:'Get'
+            }).then(res=>{
+                if(res.content.indexOf('https://')>-1){
+                    this.detail = res
+                    this.detail.content = this.readBookUrl(res.content)
 
-            }else{
-                let Base64 = require('js-base64').Base64
-                this.detail = res
-                this.detail.content = Base64.decode(res.content)
-            }
+                }else{
+                    let Base64 = require('js-base64').Base64
+                    this.detail = res
+                    this.detail.content = Base64.decode(res.content)
+                }
 
-            store.dispatch('setSharing',{
+                store.dispatch('setSharing',{
+                        url: window.location.href,
+                        title: this.detail.name,
+                        description: this.detail.description,
+                        quote: '',
+                        hashtags: this.detail.category.toString(),
+                        twitterUser: 'Leon_invincible'
+                    })
+                this.loading = false
+            }).catch(err=>{
+                this.loading = false
+            })
+
+        }else if(this.id && this.id!=='xxxxx'){
+            request({
+                url:"https://ipfs.io/ipfs/" + this.id,
+                methods:'Get'
+            }).then(res=>{
+                if(res.content.indexOf('https://')>-1){
+                    this.detail = res
+                    this.detail.content = this.readBookUrl(res.content)
+
+                }else{
+                    let Base64 = require('js-base64').Base64
+                    this.detail = res
+                    this.detail.content = Base64.decode(res.content)
+                }
+                store.dispatch('setSharing',{
                     url: window.location.href,
                     title: this.detail.name,
                     description: this.detail.description,
@@ -210,11 +242,13 @@ export default({
                     hashtags: this.detail.category.toString(),
                     twitterUser: 'Leon_invincible'
                 })
-            this.loading = false
-        }).catch(err=>{
-            this.loading = false
-        })
-
+                this.loading = false
+            }).catch(err=>{
+                console.log(err)
+                this.loading = false
+            })
+        }
+    
     },
 
     computed:{

@@ -61,9 +61,16 @@ export default{
             } 
         } ,
 
-        goToReadBook(tokenId){
+        goToReadBook(data){
+            // if(data && data.tokenId){
+            //     this.$router.push("/read/" + data.tokenId);
+            // }else if(data && data.id){
+            //     this.$router.push({path: "/read/" + data.tokenId, query: {id:data.id}})
+            //     //this.$router.push("/read/" + data.id);
+            // }
+
+            this.$router.push("/read/" + data.tokenId?data.tokenId:100000 + "/" + data.id?data.id:'xxxxx');
             
-            this.$router.push("/read/" + tokenId);
         },
 
         msToDate(ms){
